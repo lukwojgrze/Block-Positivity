@@ -1,0 +1,57 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 14.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      1432,         47]
+NotebookOptionsPosition[       990,         32]
+NotebookOutlinePosition[      1391,         48]
+CellTagsIndexPosition[      1348,         45]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"<<", 
+  "\"\<D:\\Studia\\[Python]\\Block-Positivity\\BlockPositivityFunctions.wl\>\"\
+"}]], "Input",
+ CellChangeTimes->{{3.9253992597460613`*^9, 3.925399264996996*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"fae55a4e-0ff0-0e4b-89ac-aa5810ea8afc"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.9253994163571224`*^9, 
+  3.925399416956728*^9}},ExpressionUUID->"6adf0fed-5e45-6e4a-9225-\
+3c3055206a32"]
+},
+WindowSize->{1019, 677},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (December 12, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"dd68b55c-5701-7847-948a-0b4d7a293092"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 271, 5, 28, "Input",ExpressionUUID->"fae55a4e-0ff0-0e4b-89ac-aa5810ea8afc"],
+Cell[832, 27, 154, 3, 28, "Input",ExpressionUUID->"6adf0fed-5e45-6e4a-9225-3c3055206a32"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
