@@ -6,13 +6,6 @@ BeginPackage["BlockPositivityFunctions`"];
 
 
 
-(*Function to check Block - Positivity of an 4x4 Operator - To be finished*)
-blockPositivityQ[m_]:=Module[{coeffs,con1,con2},
-coeffs = cCoefficients[m];
-con1 = detXwMainConditionQ[coeffs];
-con2 = trXwContidtionQ[m];
-Return[And[con1,con2]]]
-
 (*1. Functions to test things, i.e. To generate polynomials/matrices etc.*)
 
 (*Function generating random rational numbers from two integers*)
@@ -187,6 +180,8 @@ rightMesh=genMesh[g1,g2,mid,b,var];
 (*Combine the meshes,removing the duplicate midpoint*)
 Return[Join[Most[leftMesh],rightMesh]]]
 
+
+
 (*Function testing polynomial precedence Algorithm 2*)
 polynomialPrecedence[g1_,g2_,a_,b_, var_:t]:=Module[{s1,s2,mid},
 mid = (a+b)/2;
@@ -214,6 +209,8 @@ If[commonRootsQ[g1,g2,a,b,var]>0,Return[True]];
 If[g1a>0,Return[Not[polynomialPrecedence[g1,g2,a,b,var]]]];
 If[g1a<0,Return[polynomialPrecedence[g1,g2,a,b,var]]]
 ]
+
+
 (*Function to check nonnegativity of two polynomials on an interval (a,b)*)
 twoPolyNonnegativityQ[g1_,g2_,a_,b_,var_:t]:=Module[{intervalMesh ,i,test},
 intervalMesh = genMesh[g1,g2,a,b,var];
@@ -242,15 +239,15 @@ Return[{c1,c2,c3,c4,c5,c6}]]
 genfdeltaPoly[{a1_,a2_,a3_,a4_,a5_,a6_}]:=Module[{alpha,beta,gamma,f,w,expression},
 W[r_,t_,c1_,c2_,c3_,c4_,c5_,c6_] := c1 (t^2+1)^2*r^4-2(t^2+1)\[CapitalLambda][t,c2]r^3+\[Chi][t,c3,c4]*r^2-2(t^2+1)\[CapitalLambda][t,c5]*r+c6 (t^2+1)^2;
 
-\[Alpha][P_,t_]:=Coefficient[P,t,3]*(Coefficient[P,t,4])^(-3/4)*(Coefficient[P,t,0])^(-1/4);
+\[Alpha][P_,t_]:=Coefficient[P,t,3]*+(Coefficient[P,t,4])^(-3/4)*(Coefficient[P,t,0])^(-1/4);
 \[Beta][P_,t_]:=Coefficient[P,t,2]*(Coefficient[P,t,4])^(-1/2)*(Coefficient[P,t,0])^(-1/2);
 \[Gamma][P_,t_]:=Coefficient[P,t,1]*(Coefficient[P,t,4])^(-1/4)*(Coefficient[P,t,0])^(-3/4);
 w = W[r,t,a1,a2,a3,a4,a5,a6];
 alpha = Simplify[\[Alpha][w,r],Element[t,Reals]];
 beta = Simplify[\[Beta][w,r],Element[t,Reals]];
 gamma = Simplify[\[Gamma][w,r],Element[t,Reals]];
-f = r^4+alpha*r^3+beta*r^2*gamma*r+1;
-expression = Simplify[Discriminant[f,r]]*a1^3 a6^5 (1+t^2)^12;
+f = r^4+alpha*r^3+beta*r^2+gamma*r+1;
+expression = Simplify[Discriminant[f,r]]*a1^3 a6^5 (1+t^2)^8;
 Return[expression]]
 (*Functions to generate polynomials g1,g2,g3 and g4 from c coefficients*)
 genG1[{c1_,c2_,c3_,c4_,c5_,c6_}]:=Module[{g1},
@@ -266,7 +263,8 @@ genG3[{c1_,c2_,c3_,c4_,c5_,c6_}]:=Module[{g3},
 g3= \[Chi][t,-c3,-c4+6Sqrt[c1*c6]];
 Return[Simplify[g3]]]
 (*Function Evaluating the main line of the determinant criterion*)
-detXwMainConditionQ[coeffs_]:=Module[{g1,g2,g3,g4,gdel,con1,con2,con3,con4},
+detXwMainCondition[coeffs_]:=Module[{g1,g2,g3,g4,gdel,con1,con2,con3,con4},
+If[Or[coeffs[[1]]<0,coeffs[[-1]]<0] ,Return[False]];
 g1 = genG1[coeffs]*1.;
 g2 = genG2[coeffs]*1.;
 g3 = genG3[coeffs]*1.;
@@ -284,6 +282,13 @@ trXwContidtionQ[m_]:= Module[{\[Tau]1,\[Tau]2,\[Rho],con1,con2},
 \[Rho]=m[[1,2]]+m[[4,3]];
 con1 = Tr[m]>=0;
 con2 = (\[Tau]1*\[Tau]2 >=\[Rho]*Conjugate[\[Rho]]);
+Return[And[con1,con2]]]
+
+(*Function to check Block - Positivity of an 4x4 Operator - To be finished*)
+blockPositivityQ[m_]:=Module[{coeffs,con1,con2},
+coeffs = cCoefficients[m];
+con1 = detXwMainCondition[coeffs];
+con2 = trXwContidtionQ[m];
 Return[And[con1,con2]]]
 
 

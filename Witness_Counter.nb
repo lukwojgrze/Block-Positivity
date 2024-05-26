@@ -1,0 +1,377 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 14.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     14575,        369]
+NotebookOptionsPosition[     13745,        346]
+NotebookOutlinePosition[     14176,        363]
+CellTagsIndexPosition[     14133,        360]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "@", 
+   RowBox[{"NotebookDirectory", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"<<", "\"\<Package/BlockPositivityFunctions.wl\>\""}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"totalIterations", "=", "1000000"}], ";"}], "  "}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"updateInterval", "=", "2000"}], ";"}], "     ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Interval", " ", "at", " ", "which", " ", "to", " ", "update", " ", "the", 
+    " ", "file"}], "*)"}], "\n", "\[IndentingNewLine]", "\[IndentingNewLine]",
+   "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"File", " ", "Paths"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dataFilePath", "=", "\"\<DataFiles/data.txt\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+  "witnessFilePath", " ", "=", " ", "\"\<DataFiles/Witnesses.txt\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+   "mistakesFilePath", " ", "=", " ", "\"\<DataFiles/Mistakes.txt\>\""}], 
+   ";"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Functions", " ", "to", " ", "initialize", " ", "files"}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"initializeDataFile", "[", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"!", 
+         RowBox[{"FileExistsQ", "[", "dataFilePath", "]"}]}], ",", 
+        RowBox[{
+         RowBox[{"Export", "[", 
+          RowBox[{"dataFilePath", ",", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0"}], 
+            "}"}]}], "]"}], ";"}]}], "  ", "]"}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"initializeFile", "[", "filePath_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "}"}], ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"!", 
+         RowBox[{"FileExistsQ", "[", "filePath", "]"}]}], ",", 
+        RowBox[{
+         RowBox[{"Export", "[", 
+          RowBox[{"filePath", ",", 
+           RowBox[{"{", "}"}]}], "]"}], ";"}]}], " ", "]"}]}], "]"}]}], ";"}],
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Function", " ", "to", " ", "read", " ", "data", " ", "from", " ", "the", 
+    " ", "file"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"readData", "[", "filePath_", "]"}], ":=", 
+    RowBox[{"Import", "[", 
+     RowBox[{"filePath", ",", "\"\<List\>\""}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Function", " ", "to", " ", "write", " ", "data", " ", "to", " ", "the", 
+    " ", "file"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"writeData", "[", 
+     RowBox[{"filePath_", ",", "stuff_"}], "]"}], ":=", 
+    RowBox[{"Export", "[", 
+     RowBox[{"filePath", ",", "stuff", ",", "\"\<List\>\""}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Function", " ", "to", " ", "initialize", " ", "current", " ", "data", " ",
+     "from", " ", "files"}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"initialize", "[", "]"}], " ", ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"initializeDataFile", "[", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"initializeFile", "[", "witnessFilePath", "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"initializeFile", "[", "mistakesFilePath", "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"dataList", " ", "=", " ", 
+       RowBox[{"readData", "[", "dataFilePath", "]"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"blockPositivityCount1", " ", "=", " ", 
+       RowBox[{"dataList", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"positiveSemidefiniteCount2", " ", "=", " ", 
+       RowBox[{"dataList", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"witnessCount3", " ", "=", " ", 
+       RowBox[{"dataList", "[", 
+        RowBox[{"[", "3", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"neitherCount4", " ", "=", " ", 
+       RowBox[{"dataList", "[", 
+        RowBox[{"[", "4", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"mistakesCount5", " ", "=", " ", 
+       RowBox[{"dataList", "[", 
+        RowBox[{"[", "5", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"allCount6", " ", "=", 
+       RowBox[{"dataList", "[", 
+        RowBox[{"[", "6", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"witnessList", " ", "=", " ", 
+       RowBox[{"readData", "[", "witnessFilePath", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"mistakesList", " ", "=", " ", 
+       RowBox[{"readData", "[", "mistakesFilePath", "]"}]}], ";"}]}], 
+    "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Function", " ", "to", " ", "update", " ", "files", " ", "with", " ", 
+    "current", " ", "data"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"write", "[", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"updatedDataList", " ", "=", " ", 
+       RowBox[{"{", 
+        RowBox[{
+        "blockPositivityCount1", ",", "\[IndentingNewLine]", 
+         "positiveSemidefiniteCount2", ",", "\[IndentingNewLine]", 
+         "witnessCount3", ",", "\[IndentingNewLine]", "neitherCount4", ",", 
+         "\[IndentingNewLine]", "mistakesCount5", ",", "\[IndentingNewLine]", 
+         "allCount6"}], "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"writeData", "[", 
+       RowBox[{"dataFilePath", ",", "updatedDataList"}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"writeData", "[", 
+       RowBox[{"witnessFilePath", ",", "witnessList"}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"writeData", "[", 
+       RowBox[{"mistakesFilePath", ",", "mistakesList"}], "]"}], ";"}]}], 
+    "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Function", " ", "to", " ", "present", " ", "current", " ", "data"}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"present", "[", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"datalist", ",", "headers"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"headers", " ", "=", " ", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Block Positivity Count:\>\"", ",", "\"\<Pos-Semidef Count:\>\"", 
+        ",", " ", "\"\<Witness Count:\>\"", ",", "\"\<Neither Count\>\"", ",",
+         " ", "\"\<Mistakes Count:\>\"", ",", "\"\<All Count:\>\""}], "}"}]}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"datalist", " ", "=", " ", 
+      RowBox[{"readData", "[", "dataFilePath", "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", "\"\<Current Count:\>\"", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"headers", ",", "datalist"}], "}"}], "//", "MatrixForm"}], 
+      "]"}], ";"}]}], "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"initialize", "[", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"present", "[", "]"}]}], "Input",
+ CellChangeTimes->{{3.925648624317358*^9, 3.9256486243183584`*^9}, 
+   3.925648706180067*^9, 3.92564874559182*^9, {3.925648861416704*^9, 
+   3.925648873968218*^9}, {3.925648961291973*^9, 3.925649019278442*^9}, {
+   3.925649096528742*^9, 3.925649108422077*^9}, {3.925649357855574*^9, 
+   3.92564939761282*^9}, {3.925649966934715*^9, 3.925650228634243*^9}, {
+   3.925650259192316*^9, 3.9256502621793995`*^9}, {3.925650646307863*^9, 
+   3.925650720859245*^9}, {3.925650924702608*^9, 3.925650947481991*^9}, {
+   3.925651028894934*^9, 3.925651033245355*^9}, {3.925651084826824*^9, 
+   3.925651101670578*^9}, {3.9256513874994545`*^9, 3.925651410392626*^9}, {
+   3.9256514863334*^9, 3.925651493259016*^9}, {3.925651544351919*^9, 
+   3.925651595118458*^9}, {3.9256517717500515`*^9, 3.925651964426813*^9}, {
+   3.925652064138487*^9, 3.9256521283614063`*^9}, {3.9256521592772627`*^9, 
+   3.925652243757323*^9}, {3.925658421641874*^9, 3.925658470120119*^9}, {
+   3.925658587585577*^9, 3.925658600019541*^9}, {3.925658660139477*^9, 
+   3.925658662582868*^9}, {3.925660491647693*^9, 3.9256604931378303`*^9}, {
+   3.925723598407875*^9, 3.92572366711273*^9}, {3.9257237023299236`*^9, 
+   3.92572381605962*^9}},
+ CellLabel->
+  "In[123]:=",ExpressionUUID->"2e6f9ae9-38ac-d346-93ea-ed55011e1e82"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData["\<\"Current Count:\"\>"], "Print",
+ CellChangeTimes->{3.925723655613512*^9, 3.9257238187762756`*^9},
+ CellLabel->
+  "During evaluation of \
+In[123]:=",ExpressionUUID->"abc126ba-1fb6-2f40-97dd-d829950ed8ed"],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"\<\"Block Positivity Count:\"\>", "\<\"Pos-Semidef Count:\"\>", \
+"\<\"Witness Count:\"\>", "\<\"Neither Count\"\>", "\<\"Mistakes Count:\"\>", \
+"\<\"All Count:\"\>"},
+     {"468", "66", "402", "188817", "0", "189285"}
+    },
+    GridBoxAlignment->{"Columns" -> {{Center}}, "Rows" -> {{Baseline}}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Print",
+ CellChangeTimes->{3.925723655613512*^9, 3.925723818782789*^9},
+ CellLabel->
+  "During evaluation of \
+In[123]:=",ExpressionUUID->"616e6373-44f1-c644-a5b1-35f71ce6786b"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Do", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"X", " ", "=", " ", 
+     RowBox[{"randomHermitianMatrixUnitTrace", "[", "4", "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"blockPosCond", " ", "=", " ", 
+     RowBox[{"blockPositivityQ", "[", "X", "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"posSemCond", " ", "=", " ", 
+     RowBox[{"PositiveSemidefiniteMatrixQ", "[", "X", "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{"posSemCond", ",", " ", 
+      RowBox[{"positiveSemidefiniteCount2", "+=", "1"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{"blockPosCond", ",", 
+      RowBox[{"blockPositivityCount1", "+=", "1"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"And", "[", 
+       RowBox[{"blockPosCond", ",", 
+        RowBox[{"Not", "[", "posSemCond", "]"}]}], "]"}], ",", 
+      RowBox[{
+       RowBox[{"witnessCount3", " ", "+=", "1"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"witnessList", ",", "X"}], "]"}]}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"Not", "[", "blockPosCond", "]"}], ",", 
+      RowBox[{"neitherCount4", "+=", "1"}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"Checking", " ", "if", " ", "it", " ", "works"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"And", "[", 
+       RowBox[{
+        RowBox[{"Not", "[", "blockPosCond", "]"}], ",", "posSemCond"}], "]"}],
+       ",", 
+      RowBox[{
+       RowBox[{"mistakesCount5", "+=", "1"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"mistakesList", ",", "X"}], "]"}]}]}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"allCount6", " ", "+=", "1"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"Divisible", "[", 
+       RowBox[{"i", ",", "1000"}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"write", "[", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"present", "[", "]"}], ";"}]}], "]"}]}], ",", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "1", ",", "totalIterations"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.925649455046045*^9, 3.925649527279981*^9}, {
+   3.925649558199245*^9, 3.92564956025132*^9}, {3.925649591191225*^9, 
+   3.925649708579155*^9}, {3.925649809983053*^9, 3.9256498444915905`*^9}, 
+   3.925649924535759*^9, {3.925651611543638*^9, 3.925651624080854*^9}, {
+   3.925651658522303*^9, 3.9256517565182304`*^9}, {3.9256519850084243`*^9, 
+   3.9256520529960594`*^9}, {3.9256525520240574`*^9, 3.9256525672214394`*^9}, 
+   3.9256604673151474`*^9},
+ CellLabel->"In[81]:=",ExpressionUUID->"4491a2fc-3c2d-864d-976c-2817725de5ec"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{
+  3.9256613098722477`*^9, {3.925696360854088*^9, 
+   3.925696363793936*^9}},ExpressionUUID->"31eae193-cb45-1449-8d16-\
+20247b7342ac"]
+},
+WindowSize->{1069, 677},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>0.8 Inherited,
+FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (December 12, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"52f74a65-fbcd-7741-9320-c39bec7fdc3b"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 8954, 213, 1120, "Input",ExpressionUUID->"2e6f9ae9-38ac-d346-93ea-ed55011e1e82"],
+Cell[CellGroupData[{
+Cell[9559, 239, 220, 4, 18, "Print",ExpressionUUID->"abc126ba-1fb6-2f40-97dd-d829950ed8ed"],
+Cell[9782, 245, 845, 21, 29, "Print",ExpressionUUID->"616e6373-44f1-c644-a5b1-35f71ce6786b"]
+}, Open  ]]
+}, Open  ]],
+Cell[10654, 270, 2904, 68, 405, "Input",ExpressionUUID->"4491a2fc-3c2d-864d-976c-2817725de5ec"],
+Cell[13561, 340, 180, 4, 22, "Input",ExpressionUUID->"31eae193-cb45-1449-8d16-20247b7342ac"]
+}
+]
+*)
+
