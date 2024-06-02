@@ -1,0 +1,402 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 14.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     17083,        394]
+NotebookOptionsPosition[     15335,        357]
+NotebookOutlinePosition[     15736,        373]
+CellTagsIndexPosition[     15693,        370]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "@", 
+   RowBox[{"NotebookDirectory", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"<<", "\"\<Package/BlockPositivityFunctions.wl\>\""}]}], "Input",
+ CellLabel->
+  "In[865]:=",ExpressionUUID->"e1501503-fc7c-cb44-a24c-13bdad283ed6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Define", " ", "the", " ", "file", " ", "path"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"filePath", "=", "\"\<DataFiles/Witnesses.txt\>\""}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Read", " ", "the", " ", "file", " ", "content", " ", "as", " ", "a", " ",
+      "single", " ", "string"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fileContent", "=", 
+     RowBox[{"Import", "[", 
+      RowBox[{"filePath", ",", "\"\<Text\>\""}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Split", " ", "the", " ", "content", " ", "by", " ", "lines", " ", "to", 
+     " ", "get", " ", "individual", " ", "matrix", " ", "strings"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"matrixStrings", "=", 
+     RowBox[{"StringSplit", "[", 
+      RowBox[{"fileContent", ",", "\"\<\\n\>\""}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Convert", " ", "each", " ", "matrix", " ", "string", " ", "to", " ", "a",
+      " ", "Mathematica", " ", "expression"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"matrices", "=", 
+     RowBox[{"ToExpression", "/@", "matrixStrings"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Check", " ", "the", " ", "imported", " ", "matrices"}], "*)"}], 
+   "\n", 
+   RowBox[{
+    RowBox[{"someWitnesses", " ", "=", " ", 
+     RowBox[{"matrices", "[", 
+      RowBox[{"[", 
+       RowBox[{"200", ";;"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"coefficientsOfSomeWitnesses", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"cCoefficients", "[", 
+        RowBox[{"someWitnesses", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", 
+         RowBox[{"Length", "[", "someWitnesses", "]"}]}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"fdeltasOfSomeWitnesses", " ", "=", " ", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"genfdeltaPoly", "[", 
+       RowBox[{"coefficientsOfSomeWitnesses", "[", 
+        RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"Length", "[", "someWitnesses", "]"}]}], "}"}]}], "]"}]}], 
+   "\n"}]}]], "Input",
+ CellChangeTimes->{{3.92599859809334*^9, 3.925998601793413*^9}, {
+  3.9259986407895813`*^9, 3.9259986667259197`*^9}, {3.9259987146523056`*^9, 
+  3.9259987189569054`*^9}, {3.9259987736464615`*^9, 3.9259989552025757`*^9}},
+ CellLabel->
+  "In[800]:=",ExpressionUUID->"dbdc3354-421a-3b4d-8c8a-253bb983e7cb"],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{3.925998936286249*^9, 3.9259989698179607`*^9},
+ CellLabel->
+  "Out[806]=",ExpressionUUID->"6d14ccb4-e3aa-6840-b212-0ade51a68b3e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.9259988502722607`*^9, 
+  3.925998898121956*^9}},ExpressionUUID->"c698d56c-abf9-b44f-a653-\
+5130f8395258"],
+
+Cell[BoxData["708"], "Output",
+ CellChangeTimes->{{3.9259988536176567`*^9, 3.9259988910475636`*^9}},
+ CellLabel->
+  "Out[792]=",ExpressionUUID->"4e045a7c-15f4-6343-9c3c-a6fdb235481f"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Check", " ", "the", " ", "imported", " ", "matrices"}], "*)"}], 
+  "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"someWitnesses", " ", "=", " ", 
+     RowBox[{"matrices", "[", 
+      RowBox[{"[", 
+       RowBox[{"200", ";;"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"coefficientsOfSomeWitnesses", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"cCoefficients", "[", 
+        RowBox[{"someWitnesses", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", 
+         RowBox[{"Length", "[", "someWitnesses", "]"}]}], "}"}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{3.925999080720415*^9},
+ CellLabel->
+  "In[814]:=",ExpressionUUID->"76154edb-7b26-7f4d-a832-3fc849635daa"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fdeltasOfSomeWitnesses", " ", "=", " ", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"genfdeltaPoly", "[", 
+     RowBox[{"coefficientsOfSomeWitnesses", "[", 
+      RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "100"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.925999289958561*^9, 3.925999324670809*^9}},
+ CellLabel->
+  "In[825]:=",ExpressionUUID->"b7886b05-3b92-2f46-b9ef-c241288301c3"],
+
+Cell[BoxData[
+ TemplateBox[<|"shortenedBoxes" -> TagBox[
+     RowBox[{"{", 
+       RowBox[{
+         FractionBox[
+          
+          RowBox[{"90159140307437102235581480782141536285837646291441400295380\
+377354653565101741196129800243065830827", " ", 
+            RowBox[{"(", 
+              TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ")"}]}], 
+          
+          RowBox[{"72665744495041718650696199688093201049366847590004402449191\
+566255924729816462835955196813194828255253627289964833623543449185506718266929\
+8335950338913675323465887021817960955393440041963627", 
+            TemplateBox[{"28"}, "OutputSizeLimit`Skeleton"], 
+            "73297040760554331994909188943489075905768697694223289217619792861\
+848280969263689868775320570677442126141784322318016050047595251994534020396504\
+59248292125546328610058899876344961132812500000"}]], ",", 
+         FractionBox[
+          TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], 
+          RowBox[{"1355", 
+            TemplateBox[{"408"}, "OutputSizeLimit`Skeleton"], "0843"}]], ",", 
+         TemplateBox[{"96"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         FractionBox[
+          
+          RowBox[{"13260158190882316543381813860372414715372656490421112603936\
+489403699538775032855337", " ", 
+            RowBox[{"(", 
+              TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ")"}]}], 
+          
+          RowBox[{"12889384657190966988992589899091494847142154904537877269827\
+31332", 
+            TemplateBox[{"287"}, "OutputSizeLimit`Skeleton"], 
+            "6450727027832543767873291806039658659761530427287757783040000000"\
+}]]}], "}"}], Short[#, 8]& ], "line" -> 825, "sessionID" -> 
+   30212186171025486707, "byteCount" -> 539144, "size" -> 8, "stored" -> 
+   False, "expr" -> Missing["NotStored"], "wrap" -> OutputSizeLimit`Defer, 
+   "version" -> 1|>,
+  "OutputSizeLimitTemplate"]], "Output",
+ CellChangeTimes->{{3.925999293201954*^9, 3.925999311620701*^9}, 
+   3.925999374248234*^9},
+ CellLabel->
+  "Out[825]=",ExpressionUUID->"b6d4bc7f-f7ab-ae4b-9cae-841a8d5b9a5f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ftildes", " ", "=", " ", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"reduceRootMultiplicities", "[", 
+      RowBox[{"fdeltasOfSomeWitnesses", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], "]"}], "[", 
+     RowBox[{"[", "1", "]"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "100"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.9259993131396866`*^9, 3.9259993207348194`*^9}, {
+  3.925999557029747*^9, 3.92599959015279*^9}, {3.925999634078039*^9, 
+  3.9259996992690525`*^9}, {3.9259998352205048`*^9, 3.925999860775217*^9}, {
+  3.925999922627842*^9, 3.9259999458428535`*^9}},
+ CellLabel->
+  "In[872]:=",ExpressionUUID->"9ed42a29-8788-2042-bc26-9496897bec83"],
+
+Cell[BoxData[
+ TemplateBox[<|"shortenedBoxes" -> TagBox[
+     RowBox[{"{", 
+       RowBox[{
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"36"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"], ",", 
+         TemplateBox[{"1"}, "OutputSizeLimit`Skeleton"]}], "}"}], 
+     Short[#, 8]& ], "line" -> 872, "sessionID" -> 30212186171025486707, 
+   "byteCount" -> 80372832, "size" -> 8, "stored" -> False, "expr" -> 
+   Missing["NotStored"], "wrap" -> OutputSizeLimit`Defer, "version" -> 1|>,
+  "OutputSizeLimitTemplate"]], "Output",
+ CellChangeTimes->{{3.9259996313286533`*^9, 3.9259996412172203`*^9}, 
+   3.9259997672731476`*^9, 3.92600000165308*^9},
+ CellLabel->
+  "Out[872]=",ExpressionUUID->"a33660a9-7431-104a-961c-c219f93f97ea"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"zeros", " ", "=", " ", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"countRealRootsInInterval", "[", 
+     RowBox[{
+      RowBox[{"ftildes", "[", 
+       RowBox[{"[", "i", "]"}], "]"}], ",", 
+      RowBox[{"-", "1000"}], ",", "1000"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "1", ",", "100"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.925999870049444*^9, 3.925999886813841*^9}, {
+  3.9260003336034374`*^9, 3.9260003675994587`*^9}},
+ CellLabel->
+  "In[873]:=",ExpressionUUID->"9c06c2da-1636-b844-9486-d941358b005c"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+   "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+   "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+   "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+   "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+   "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", 
+   "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", ",", "0", 
+   ",", "0", ",", "0"}], "}"}]], "Output",
+ CellChangeTimes->{3.926000791125986*^9},
+ CellLabel->
+  "Out[873]=",ExpressionUUID->"ee0b7f6a-e351-394f-8ec3-485603b62c62"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.925999038060465*^9, 3.925999096702919*^9}, {
+  3.9259992676381817`*^9, 
+  3.925999271261009*^9}},ExpressionUUID->"d1c5a591-74e2-5449-939e-\
+5b35329c5d78"],
+
+Cell[BoxData["x`"], "Input",
+ CellChangeTimes->{{3.926000635725952*^9, 
+  3.9260006357948456`*^9}},ExpressionUUID->"2555bf79-7599-a740-8053-\
+3bcf7ec86566"]
+},
+WindowSize->{1069, 677},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.0 for Microsoft Windows (64-bit) (December 12, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"6b158963-ef22-e349-bd08-4221c82396c0"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 291, 6, 65, "Input",ExpressionUUID->"e1501503-fc7c-cb44-a24c-13bdad283ed6"],
+Cell[CellGroupData[{
+Cell[874, 30, 2756, 69, 420, "Input",ExpressionUUID->"dbdc3354-421a-3b4d-8c8a-253bb983e7cb"],
+Cell[3633, 101, 184, 3, 32, "Output",ExpressionUUID->"6d14ccb4-e3aa-6840-b212-0ade51a68b3e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3854, 109, 154, 3, 28, "Input",ExpressionUUID->"c698d56c-abf9-b44f-a653-5130f8395258"],
+Cell[4011, 114, 183, 3, 32, "Output",ExpressionUUID->"4e045a7c-15f4-6343-9c3c-a6fdb235481f"]
+}, Open  ]],
+Cell[4209, 120, 875, 24, 103, "Input",ExpressionUUID->"76154edb-7b26-7f4d-a832-3fc849635daa"],
+Cell[CellGroupData[{
+Cell[5109, 148, 474, 11, 44, "Input",ExpressionUUID->"b7886b05-3b92-2f46-b9ef-c241288301c3"],
+Cell[5586, 161, 2107, 43, 191, "Output",ExpressionUUID->"b6d4bc7f-f7ab-ae4b-9cae-841a8d5b9a5f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7730, 209, 726, 16, 44, "Input",ExpressionUUID->"9ed42a29-8788-2042-bc26-9496897bec83"],
+Cell[8459, 227, 4655, 76, 127, "Output",ExpressionUUID->"a33660a9-7431-104a-961c-c219f93f97ea"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13151, 308, 567, 14, 44, "Input",ExpressionUUID->"9c06c2da-1636-b844-9486-d941358b005c"],
+Cell[13721, 324, 1233, 19, 52, "Output",ExpressionUUID->"ee0b7f6a-e351-394f-8ec3-485603b62c62"]
+}, Open  ]],
+Cell[14969, 346, 203, 4, 28, "Input",ExpressionUUID->"d1c5a591-74e2-5449-939e-5b35329c5d78"],
+Cell[15175, 352, 156, 3, 28, "Input",ExpressionUUID->"2555bf79-7599-a740-8053-3bcf7ec86566"]
+}
+]
+*)
+
